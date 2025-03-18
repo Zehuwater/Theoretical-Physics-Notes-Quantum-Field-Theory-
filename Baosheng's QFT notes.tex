@@ -1,0 +1,1098 @@
+\documentclass[12pt,openany]{book}
+%\documentclass[12pt]{book}
+%\usepackage{ctex} 
+\usepackage{geometry,graphicx,xcolor,color}
+\geometry{
+	a4paper,
+	top=25.4mm, bottom=25.4mm,
+	left=20mm, right=20mm,
+	headheight=2.17cm,
+	headsep=4mm,
+	footskip=12mm
+}
+\usepackage{subcaption}
+\usepackage{framed}
+\usepackage{color}
+\usepackage{amssymb,amsmath,mathrsfs}% 数学字体
+\usepackage{braket}%为了加入左右矢符号而用的包
+\usepackage{esint} %为了加入二重环路积分用的包     
+\usepackage{authblk}
+\usepackage{ulem}        
+\usepackage{slashed}%费曼斜线标记而用的包      
+%\usepackage[nofontspec]{newpxtext}
+\usepackage{extarrows}
+\usepackage{tikz}
+\usepackage{appendix}
+\usepackage[sort&compress]{natbib}
+\usepackage{circuitikz}%调用宏包circuitikz
+\usepackage{siunitx}
+\bibliographystyle{unsrt}
+\definecolor{winered}{rgb}{0.5,0,0}
+\definecolor{structurecolor}{RGB}{122,122,142}
+\definecolor{main}{HTML}{3D445F}
+\definecolor{second}{HTML}{627581}
+\definecolor{third}{HTML}{9D8798}
+\usepackage{hyperref}
+\hypersetup{colorlinks = true, linktoc=all, linkcolor=black, urlcolor=winered}
+% 设置章形式
+\usepackage{titlesec, titletoc}
+\linespread{1.2} 				
+\usepackage{fancyhdr}
+\fancyhf{}
+\renewcommand{\headrule}{\color{structurecolor}\hrule width\textwidth}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{1pt}
+\fancypagestyle{plain}{\renewcommand{\headrulewidth}{0pt}\fancyhf{}\renewcommand{\headrule}{}}
+
+\fancyhead[c]{\color{structurecolor}\rightmark}
+\fancyfoot[c]{\color{structurecolor}\small\thepage}
+
+\titleformat{\chapter}[display]{\Large}
+{\color{structurecolor}\filleft
+	\parbox{1cm}{\vbox to 1.5cm{\vfill\hbox to 4cm{\hfill\Huge \bfseries \color{structurecolor}{Chapter} \thechapter \hfill}}}}
+{1ex}
+{\color{structurecolor} \titlerule[2pt]\large\bfseries \filright \vspace*{1em}}
+[\vspace*{1em} {\titlerule[2pt]}]
+
+\titleformat{\section}[frame]{\normalfont\color{structurecolor}}{\footnotesize \enspace \large \textcolor{structurecolor}{\S \,\thesection}\enspace}{6pt}{\Large\filcenter \bf \kaishu }
+
+
+\titleformat{\subsection}[hang]{\bfseries}{\large\bfseries\color{structurecolor}\thesubsection\enspace}{1pt}{\color{structurecolor}\large\bfseries\filright}
+
+\titleformat{\subsubsection}[hang]{\bfseries}{\large\bfseries\color{structurecolor}\thesubsubsection\enspace}{1pt}{\color{structurecolor}\large\bfseries\filright}
+% ------------------------------------------------------------%
+% 设置封面
+
+\title{Quantum Field Theory Notes}
+\author[1]{\href{libaosheng@stu.ynu.edu.cn}{Baosheng Li}  }
+\affil[1]{School of Physics and Astronomy, Yunnan University}
+\renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小
+\renewcommand\Authands{ and } % 去掉 and 前的逗号
+\date{Spring Semester\\2024-2025 Academic Year}
+%设置图片路径
+
+\begin{document}
+	\frontmatter
+	
+	\maketitle
+	\begin{center}
+		NOTE DESCRIPTION 
+	\end{center}
+	
+	This note is author's self-study notes of quantum field theory and what I had chose is the \textit{Quantum Field Theory and the Standard Model} written by Matthew D. Schwartz. 
+	In this note, I shall use the same names of the chapters to fit with the book itself and almostly there will exist more things about my thoughts which may have some mistakes.\par 
+	pS:\textit{And the version is the cloud version which run on overleaf because of the hard work of setting 
+		automatic English spelling in my local texstudio. So this can be regarded as my first attmpt on the 
+		cloud.}
+	
+	
+	\clearpage
+	\vspace*{\fill}
+	\begin{center}
+		\textit{To those who taught me physics.}\\
+		\textit{To human rationality.}
+	\end{center}
+	\vspace*{\fill}
+	\clearpage
+	
+	\tableofcontents
+	
+	\mainmatter
+	\part{Field Theory}
+	%1 Chapter 1
+	\chapter{Microscopic Theory of Radiation}
+	In this chapter, the Schwartz had shown to us that how the quantum theory was brought up especially the Plank's work in 
+	blackbody radiation also the Einstein's coefficients of spontaneous emission, and we shall use the first principle of quantum field theory
+	to illustrate plenty of conclusions and phenomena. Also, we have to say, this is a period of history.\par 
+	Let's go back to the classical time. We can derive the formula of frequencies from electrodynamics: the $\omega_n$ in a box of size
+	$L$ supported standing electromagnetic waves
+	\begin{equation}
+		\omega_n=\frac{2\pi}{L}|\vec{n}|c
+	\end{equation}\\
+	By the classical equipartition theorem, we can come up the concept of blackbody, an object at fixed temperature whose internal structure we do not care about. And, how to say? Blackbodies
+	should emit light equally in all modes with the intensity in volume of phase space:
+	\begin{equation}
+		I(\omega)=\frac{1}{V}\frac{d}{d\omega}E(\omega)=\text{constant}\times c^{-3}\omega^2k_BT
+	\end{equation}
+	But that will upset us, beacasue the $I$ is the quadratic function of $\omega$. That says, when the $\omega$ grows up, the $I$ will diverge.
+    That's the Ultra-violet catastrophe.\par 
+    Experimentally, the distrubution looks more like a Maxwell-Boltzmann distribution which imply that there is 
+    no diverge from the frequency interval $[0,\infty]$. In order to deal with the ultraviolet disaster, 
+    Planck successfully matched the experimental data with phenomenological methods such as interpolation, 
+    but it required the assumption that energy was quantized and introduced a new constant to distinguish the 
+    classical bewteen quantum mechanics:
+    \begin{equation}
+    	E_n=\hbar\omega_n=\frac{2\pi}{L}\hbar|\vec{n}|=|\vec{p}_n|
+    \end{equation}
+    Later, the Albert Einstein interpreted this as implying that light is made up of particles, the photons. Anyway, 
+    quantizing light resolves the blackbody paradox and light having energy leads to the photoelectric effect which was
+    proven by Compton scattering experiment. \par 
+    Anyway, with Planck's energy hypothesis, we can compute the specturm functions from first principle: each mode
+    of frequency $\omega_n$ can be excited an integer number $j$ times giving energy $jE_n=j\hbar\omega$ in that mode.
+    The partition function from Boltzmann distribution is $\exp(-\text{energy}\cdot\beta)$, thus the mean value of
+    energy can be computed by followings:
+    \begin{equation}
+    	\begin{aligned}
+    		\braket{E_n}&=\frac{\sum_{j=0}^{+\infty}jE_ne^{-jE_n\beta}}{\sum_{j=0}^{+\infty}e^{-jE_n\beta}}\quad\quad\text{Convergent infinite series}\\
+    		            &=\frac{-\frac{d}{d\beta}\frac{1}{1-e^{-\hbar\omega_n\beta}}}{\frac{1}{1-e^{-\hbar\omega_n\beta}}}\\
+    		            &=\frac{\hbar\omega_n}{e^{\hbar\omega_n\beta}-1}
+    	\end{aligned}
+    \end{equation}
+	When we take the continue limit, namely $L\rightarrow\infty$, we turn the $\sum$ to $\int$:
+	\begin{equation}
+	\begin{aligned}
+			E(\omega)&=\int^{\omega}d^3\vec{n}\frac{\hbar\omega_n}{e^{\hbar\omega_n\beta}-1}\quad\text{for all space}\\
+		             &=4\pi\hbar\frac{L^3}{8\pi^3}\int^{\omega}d\omega^\prime\frac{(\omega^\prime)^3}{e^{\hbar\omega^\prime\beta-1}}
+	\end{aligned}
+	\end{equation} 
+	so our first question have been figured out. Thus, we have 
+	\begin{equation}
+		I(\omega)=\frac{1}{V}\frac{dE(\omega)}{d\omega}=\frac{\hbar}{\pi^2}\frac{\omega^3}{e^{\hbar\omega\beta-1}}
+	\end{equation}
+	So the UV catastrophe disappeared when we introduced quantization of energy!
+	\par 
+	\begin{quotation}
+		\textit{
+		What does this have to do with quantum field theory? In order for this derivation, which 
+		used equilibrium statistical mechanics, to make sence, light has to be able to equilibrate. For
+		example, if we heat up a box with monochromatic light, eventually all frequencies must be excited. However,
+		 if different frequencies are different particles, equilibration must involve one kind of particle turning into another
+		 kind of particle. So, particles must be created and destoryed. Quantum field theory tells us how that happens!
+		}
+	\end{quotation}
+	That's exciting rational analysis!\par 
+	However, there's one thing worth thinking. When we talk about the UV, we will find that it is a statistical physics problem. 
+	Yeah, we used to tackle the spontaneous emission through the statistical method. But the most exciting part is that 
+	we tackle the spontaneous emission through the single atom from first principle developed from quantum field theory not the 
+	statistical mechanics. In other words, Einstein's spontaneous emission coefficient can be calculated from the first principles of quantum field theory without the use of statistical mechanical conditions that assume thermal equilibrium. 
+	So this is a new evidence and defense to the quantum field theory. Let's see his face! (We're just going to talk about how do we get a solution to this problem from quantum field theory)
+	\par 
+	Before the start, we plain the results from Einstein's A,B coefficients:
+	\begin{equation}
+		\begin{aligned}
+			&B^\prime=B\\
+			&\frac{A}{B}=\frac{\hbar }{\pi^2}\omega^3
+		\end{aligned}
+	\end{equation}
+	The $B=B^\prime$, says that the coefficient of absorption must be the same as the coefficient for stimulated emission. 
+	The coefficient $B$ and $B^\prime$ can be computed in quantum mechanics using time-dependent perturbation theory with an
+	external electromagnetic field. The the ratio of $A$ and $B$ determines $A$. However, does spontaneous emission from an atom
+	have anything to do with equilibrium of a gas since an atom radiates at the same rate no matter what is around it. That need the 
+	quantum field theory to figure out until 10 years after Einstein's calculation.
+	\par 
+	We know that, there exits some basic and profound motion mode, the $1/r$ and $r^2$. The first implies the motion of celestial bodies and the second 
+	implies an oscillator which often represents the cyclic motion. From the quantum mechanics, we can say that the easiest way to develop 
+	a quantum harmonic oscillator is with creation and annihilation operators, $a^\dagger$ and $a$, satisfying:
+	\begin{equation}
+		\big[a,a^\dagger\big]=1
+	\end{equation}
+	and the number operator $\hat{N}=a^\dagger a$, which counts modes
+	\begin{equation}
+		\hat{N}\ket{n}=n\ket{n}
+	\end{equation}
+	Notice that $a^\dagger\ket{n}$ is the eigenstate of the operator $\hat{N}$, proof are given:
+	\begin{equation}
+	\begin{aligned}
+			\hat{N}a^\dagger\ket{n}&=a^\dagger a a^\dagger\quad \text{use the commutator}\big[a,a^\dagger\big]=aa^\dagger-a^\dagger a=1\\
+			                       &=a^\dagger \big(1+a^\dagger a\big)\ket{n}\\
+			                       &=a^\dagger\ket{n}+a^\dagger a^\dagger a\ket{n}\\
+			                       &=a^\dagger\ket{n}+a^\dagger a^\dagger\sqrt{n}\ket{n-1}\\
+			                       &=a^\dagger\ket{n}+\sqrt{n}\sqrt{n}a^\dagger\ket{n}\\
+			                       &=(n+1)a^\dagger\ket{n}
+	\end{aligned}
+	\end{equation}
+	and the eigenvalue is $n+1$. Also, we normalize the egienstates as $\braket{n|n}=1
+	$\par 
+	Now, let's deal with the spontaneous emission. I think it is necessary to re-explain the concept of
+	\href{https://en.wikipedia.org/wiki/Spontaneous_emission}{spontaneous emission} quoted from Wikipedia.
+	\begin{quotation}
+	Spontaneous emission is the process in which a quantum mechanical system (such as a molecule, an atom or a subatomic particle) transits from an excited energy state to a lower energy state (e.g., its ground state) and emits a quantized amount of energy in the form of a photon.
+	Spontaneous emission is ultimately responsible for most of the light we see all around us; it is so ubiquitous that there are many names given to what is essentially the same process.
+    If atoms (or molecules) are excited by some means other than heating,
+	the spontaneous emission is called luminescence.
+	For example, fireflies are luminescent.
+	And there are different forms of luminescence depending on how excited atoms are produced (electroluminescence, chemiluminescence etc.).
+	If the excitation is affected by the absorption of radiation the spontaneous emission is called fluorescence. 
+	Sometimes molecules have a metastable level and continue to fluoresce long after the exciting radiation is turned off; this is called phosphorescence.
+	Figurines that glow in the dark are phosphorescent.
+	Lasers start via spontaneous emission, then during continuous operation work by stimulated emission.
+	\end{quotation}
+	As we developed in quantum mechanics, the Fermi's Golden Rules，
+	\begin{equation}
+		\Gamma\sim|\mathcal{M}|^2\delta(E_f-E_i)
+	\end{equation}
+	implies the transition rate between two state  where $\delta$ function enforces the
+	conservation of energy (We will derive the quantum field theory version of cross-section and decay rate in chapter 5). The matrix element (tip: perturbation theory) is：
+	\begin{equation}
+		\mathcal{M}=\bra{f}H_{int}\ket{i}
+	\end{equation}
+	namely the schematic
+	\begin{equation}
+		\mathcal{M}=\left\{\text{final state}\xlongleftarrow[\text{Interaction}]{\text{Hamiltonian}}\text{initial state}\right\}
+	\end{equation}\par 
+	No matter what the $H_{int}$ is exactly, it should have the creation and annihilation operator in line with the case of 
+	spontaneous emission and it must be Hermitian. Thus, we can write it formally without losing the physical meaning as following:
+	\begin{equation}
+		H_{int}=H_{I}^{\dagger}a^\dagger+H_{I}a
+	\end{equation}\par 
+	As for the process of spontaneous emission, we note the initial excited atom state 
+	as $\ket{\text{Atom 2};n_\omega}$ with $n_\omega$ photons of frequency $\omega=\Delta/\hbar$:
+	\begin{equation}
+		\ket{i}=\ket{\text{Atom 2};n_\omega}
+	\end{equation}
+	and the final state is a lower energy atom we note as $\text{Atom 1}$ with $n_\omega+1$ photons of energy $\Delta$:
+	\begin{equation}
+		\ket{f}=\ket{\text{Atom 1};n_\omega+1}
+	\end{equation}
+	and
+	\begin{equation}
+		\left\{\ket{\text{Atom 1};n_\omega+1}\xlongleftarrow[\Delta=\hbar\omega]{\text{A Photon}}\ket{\text{Atom 2};n_\omega}\right\}
+	\end{equation}\par 
+	Then we can compute:
+	\begin{equation}\label{spc}
+		\begin{aligned}
+			\bra{f}H_{int}\ket{i}&=\bra{f}H_{I}^{\dagger}a^\dagger+H_{I}a\ket{i}\\
+			                     &=\bra{\text{Atom 1};n_\omega+1}H_{I}^{\dagger}a^\dagger+H_{I}a\ket{\text{Atom 2};n_\omega}\\
+			                     &=\bra{\text{Atom 1};n_\omega+1}H_{I}^{\dagger}a^\dagger\ket{\text{Atom 2};n_\omega}+\bra{\text{Atom 1};n_\omega+1}H_{I}a\ket{\text{Atom 2};n_\omega}\\
+			                     &=\bra{\text{Atom 1}}H_{I}^{\dagger}\ket{\text{Atom 2}}\bra{n_\omega+1}a^\dagger\ket{n_\omega}+\bra{\text{Atom 1}}H_{I}\ket{\text{Atom 2}}\bra{n_\omega+1}a\ket{n_\omega}\\
+			                     &=\bra{\text{Atom 1}}H_{I}^{\dagger}\ket{\text{Atom 2}}\sqrt{n_\omega+1}
+		\end{aligned}
+	\end{equation}
+	which we have used the algebraic eigen-equation of operat $a\dagger$, $a$ and we decompose the eigenstates $\ket{\text{Atom 1};n_\omega+1}$, $\ket{\text{Atom 2};n_\omega}$ and compound operators $H_I^\dagger a^\dagger$, $H_I a$ here. Further, we note that 
+	$\mathcal{M}_0^\dagger=\bra{\text{Atom 1}}H_I^\dagger\ket{\text{Atom 2}}$. Thus, the process can be described as 
+	\begin{equation}
+		|\mathcal{M}_{2\rightarrow1}|^2=|\mathcal{M}_0|^2(n_\omega+1)
+	\end{equation}\par 
+	Instead, we excite an atom, then the initial state is unexcited atom with $n_\omega$ photons. Then, the initial and final state can be written as 
+	\begin{equation}
+			\ket{i}=\ket{\text{Atom 1};n_\omega}
+	\end{equation}
+	\begin{equation}
+		\ket{f}=\ket{\text{Atom 2};n_\omega-1}
+	\end{equation}
+	Same as \eqref{spc}, we have:
+	\begin{equation}
+		\begin{aligned}
+			\bra{f}H_{int}\ket{i}&=\bra{\text{Atom 2}}H_I^\dagger\ket{\text{Atom 1}}\bra{n_\omega-1}a^\dagger\ket{n_\omega}+\bra{\text{Atom 2}}H_I\ket{\text{Atom 1}}\bra{n_\omega-1}a\ket{n_\omega}\\
+			                     &=\bra{\text{Atom 2}}H_I\ket{\text{Atom 1}}\sqrt{n_\omega}
+		\end{aligned}
+	\end{equation}
+	and
+	\begin{equation}
+		\mathcal{M}_{1\rightarrow2}=\mathcal{M}_0\sqrt{n_\omega}
+	\end{equation}
+	namely
+	\begin{equation}
+		|\mathcal{M}_{1\rightarrow2}|^2=|\mathcal{M}_0|^2n_\omega
+	\end{equation}\par 
+	According to Einstein's theory, the density of number satisfies (see on \href{https://zh.wikipedia.org/wiki/%E8%87%AA%E5%8F%91%E8%BE%90%E5%B0%84}{Wikipedia})
+	\begin{equation}
+		\begin{aligned}
+		 dn_2=-dn_1&=-|\mathcal{M}_{2\rightarrow1}|^2n_2+|\mathcal{M}_{1\rightarrow2}|^2n_1\\
+		           &=-|\mathcal{M}_0|^2(n_\omega+1)n_2+|\mathcal{M}_0|^2n_\omega n_1
+		\end{aligned}
+	\end{equation}
+	while the original form are 
+	\begin{equation}
+		dn_2=-dn_1=-\big[A+BI(\omega) \big]n_2+B^\prime I(\omega)n_1
+	\end{equation}
+	and we need to relate the number of photon modes of frequency $\omega$ to the intensity $I(\omega)$ since the energies
+	are quantized by $\Delta=\hbar\omega=\hbar2\pi/L |\vec{n}|$. The total energy is
+	\begin{equation}
+		E(\omega)=\int^\omega d^3\vec{n}\hbar\omega n_\omega=4\pi\hbar L^3\int^\omega\frac{d\omega}{(2\pi)^3}\omega^3n_\omega
+	\end{equation}\par 
+	But we should multiply this by $2$ for the two polarizations of light. Including the $2$ factor, we can get the intensity
+	\begin{equation}
+		I(\omega)=\frac{1}{L^3}\frac{dE(\omega)}{d\omega}=\frac{\hbar\omega^3}{\pi^2}n_\omega
+	\end{equation}\par 
+	Thus, we have the exciting results:
+	\begin{equation}
+		dn_2=-dn_1=-|\mathcal{M}_0|^2\big[1+\frac{\pi^2}{\hbar\omega^3}I(\omega)\big]n_2+|\mathcal{M}_0|^2\big[\frac{\pi^2}{\hbar\omega^3}I(\omega)\big]n_1
+	\end{equation}
+	where we can read
+	\begin{equation}
+		B^\prime=B,\quad \frac{A}{B}=\frac{\hbar}{\pi^2}\omega^3
+	\end{equation}
+	without ant assumption of thermal equilibrium! That's one of the success of Quantum Field Theory!\par 
+	In a word, that's a history or beginning of our quantum field theory journey. More details can be found on my own 
+	paper notebook which follows the online course of Yu Jia from UCAS on \href{https://www.bilibili.com/video/BV1oo4y1o7RZ/?spm_id_from=333.1387.favlist.content.click}{bilibili} starting from the 
+	Dirac and K-G fields.
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	\chapter{Lorentz Invariance and the Second Quantization}
+	In the last chapter, we already know that treating each mode of electromagnetic radiation in a cavity as a simple harmonic oscillator,
+	we can derive Einstein's relation between the coefficients on induced and spontaneous emission without resorting to statistical mechanics.
+	In this chapter, we gonna to talk about the scond quantization and free field used to describe the canonical quantization of relativistic fields.
+	\par 
+	In M.D. Schwartz's book, however, he devotes a larger part of the book to a review of special relativity and some tensor operations, a part I will omit in this note. 
+	In the course on general relativity (Canbin Liang's textbook), we did a lot of tensor operations and discussion of the differential geometry of spacetime geometry, so we will not go into some metrics, i.e.
+	 the so-called covariance and inversion, time-like and spacelike concepts, etc.,
+	 and will just use them directly instead of elaborating on them again in this note.
+	 \par 
+	 Here, it is important to recall that there are two approaches to developing quantum field theory, 
+	 canonical quantization and Feynman integrals. 
+	 Here, we will mainly focus on the analogy of harmonic oscillators then slowly build up the concept of canonical quantization. 
+	 As for the Feynman integral, we will briefly introduce its concepts as well as operations,
+	  which mainly refer to the books of A.Zee ,\textit{Quantum field theory in a nutshell}\footnote{Very great book!}(whose said that from our point of view, 
+	  quantum mechanics is nothing more than 0+1 dimensional quantum field theory).
+	  \par 
+	  \begin{center}
+	  	\textcolor{red}{\textit{to be supplemented}}
+	  \end{center}
+	 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	\chapter{Classical Field Theory}
+	As we had illustrated formerly that the quantum field theory is just quantum mechanics with as infinite number of oscillators.
+	We already saw that it can do some remarkable things, such as explain spontaneous emission without the statistical theory.
+	(But it also seems to lead to aburdities, such as an infinite shift in the energy levels of hydrogen atom). Remember that 
+	quantum field theory is not abusrd but extremely predictive.That means you should be vary careful about how we do calculations 
+	that the theory gets right without infinities. These are called the \textit{tree-level processes}, which means
+	they are leading order in an expansion in $\hbar$. Since takeing $\hbar\rightarrow0$ gives the classical limit, tree-level calculations
+	are closely related to calculations in classical field theory, which is the subject of this chapter.\par 
+	A classical field theory is just a mechanical system with a continuous set of degrees of freedom. Differently, we often use the density of Hamiltonians or Lagrangians in place of Hamiltonian or Lagrangians:
+	(notice that we often omit the word \textit{density}, so that whenever we refer to Hamiltonians and Lagrangians we refer to their density)
+	\begin{equation}
+		H=\int d^3x \mathcal{H},\quad L=\int d^3x \mathcal{L}
+	\end{equation}
+	and the dynamics for a Lagrangian system are determined by \textit{the principle of least action}. The action is the 
+	integral over the time:
+	\begin{equation}
+		S=\int dt L=\int d^4x\mathcal{L}
+	\end{equation}\par 
+	Formally, the Hamiltonian is a functional of fields and their conjugate momenta $\mathcal{H}=\mathcal{H}[\phi,\pi]$ while the Lagrangian
+	is the \textit{Legendre transform of the Hamiltonian} defined as
+	\begin{equation}
+		\mathcal{L}[\phi,\dot{\phi}]=\pi[\phi,\dot{\phi}]\dot{\phi}-\mathcal{H}[\phi,\pi[\phi,\dot{\phi}]]
+	\end{equation}
+	where items satisfies 
+	\begin{equation*}
+		\dot{\phi}=\partial_t\phi
+	\end{equation*}
+	and $\pi[\phi,\dot{\phi}]$ is defined by 
+	\begin{equation*}
+		\frac{\partial \mathcal{H}[\phi,\pi]}{\partial \pi}=\dot{\phi}
+	\end{equation*}\par 
+	The inverse transform is 
+	\begin{equation}
+		\mathcal{H}[\phi,\pi]=\pi\dot{\phi}[\phi,\pi]-\mathcal{L}[\phi,\dot{\phi}[\phi,\pi]]
+	\end{equation}
+	where the item $\dot{\phi}[\phi,\pi]$ is defined by
+	\begin{equation*}
+		\frac{\partial\mathcal{L}[\phi,\dot{\phi}]}{\partial\dot{\phi}}=\pi
+	\end{equation*}\par 
+	What a coup is that you can regard the $\phi$ as the analog of $q$ and regard the $\pi$ as the analog of $p$ which represents
+	that the thought of field is the field version of the so-called analytical mechanics.\par 
+	Also, we can derive the Hamilontian with the sum of the kinetic and potential energies of a system:
+	\begin{equation}
+		\mathcal{H}=\mathcal{K}+\mathcal{V}
+	\end{equation}
+	while the Lagrangian was shown as:
+	\begin{equation}
+		\mathcal{L}=\mathcal{K}-\mathcal{V}
+	\end{equation}\par 
+	The Hamiltonian corresponds to a conserved quantity that is the total energy of a system while the Lagranian does not.
+	The question is that, Hamiltonians, however, is that they are not Lorentz invariant. Although the Hamiltonian picks out 
+	the energy or pricisely the energy eigenvalue, which is not a Lorentz scalar. On the contrary, it is the $0$ component of 
+	a Lorentz vector $P_\mu=\big(H,\vec{p}\,\big)$ (4-momentum vector). The Hamiltonian density is the $00$ component of a Lorentz tensor,
+	the energy-momentum tensor $\mathcal{T}_{\mu\nu}$ which we will see it is the Noether current given by symmery under global 
+	space-time translations.\par 
+	What's more? The Matthew D. Schwartz taught us a fact or a convention. Hamiltonians are great for non-relativistic sysytems (such as we have already learnt in quantum mechanics)
+	, but for relativistic systems we will almost exclusively use Lagrangians.\par 
+	And there are many terms we should understand clearly. We do not usually talk about kinetic and potential energy in quantum
+	field theory. Instead we talk about \textit{kenetic terms} and then about \textit{interactions}, for reasons that will
+	become clear after we have done a few calculations (shut up and do calclations!). \textit{Kinetic terms} are \textit{bilinear}, meaning 
+	they have exactly two fields as we saw the square item in Newton's mechanics. So kinetic terms may look like:
+	\begin{equation*}
+		\mathcal{L}_K\supset\frac{1}{2}\phi\Box\phi,\quad \bar{\psi}\slashed{\partial}\psi,\quad\frac{1}{4}F^2_{\mu\nu},\quad \frac{1}{2}m^2\phi^2,\quad\frac{1}{2}\phi_1 \Box \phi_2
+	\end{equation*}\par 
+	Anything with just two fields of the same or different type can be called a kinetic term.
+	The kinetic terms tell you about the free (non-interacting) behavior. Fields with kinetic terms are 
+	said to be \textit{dynamical} or \textit{propagating}. More precisely, a field should have time derivatives
+	in its kinetic term to be dynamical. It is also sometimes useful to think of a \textit{mass term}, such as $m^2\phi^2$,
+	as an interaction rather than a kinetic term. \textit{Interactions} have three or more fields like $\mathcal{L}\supset\lambda\phi^3$,
+	$g\bar{\psi}\slashed{A}\psi$,$g\partial_\mu\phi A_\mu\phi^\star$,$g^2A_\mu^2A_\nu^2$,$1/M_{PI}\partial_\mu h_{\mu\nu}\partial_\nu h_{\alpha\beta}h_{\alpha\beta}$,$\cdots$ Since
+	the interactions are everything but the kinetic terms, we also sometimes write $\mathcal{L}=-\mathcal{V}=-\mathcal{H}_{int}$. It is 
+	helpful if the coefficients of the interaction terms are small in some sense, so that the fields are \textit{weakly interacting} and 
+	we can do \textit{perturbation theory}.\par
+	From now, we focus on the principal of least action and consider the varing
+	of $\phi\rightarrow\phi+\delta\phi$, and the Lagranian is the functional of a field and its first derivatives\footnote{
+		The form $\mathcal{L}[\phi,\partial_\mu\phi]$ is the form that "classical" Lagrangians had. If only first derivatives are 
+		involved, boundary conditions can be specified by initial positions and velosities only in accordance with Newton's idea. And 
+		actually, the complex couping fields items in kinetic or interactions must occur due to the quantum effects in all but the simplest
+		\textit{renormalizable} field theories such as geneic in \textit{effective field theories}.
+	}, then we can do 
+	functional computation as following:
+	\begin{equation}\label{deltaS}
+		\begin{aligned}
+			\delta S&=\int d^4x [\mathcal{L}+\delta\mathcal{L}-\mathcal{L}]\\
+			&=\int d^4x\big[\frac{\partial\mathcal{L}}{\partial\phi}\delta\phi+\frac{\partial \mathcal{L}}{\partial(\partial_\mu\phi)}\delta(\partial_\mu\phi)\big]\\
+			&=\int d^4x\big[\frac{\partial\mathcal{L}}{\partial\phi}\delta\phi+\frac{\partial \mathcal{L}}{\partial(\partial_\mu\phi)}\partial_\mu(\delta\phi)   \big]\\
+			&=\int d^4x \big[\frac{\partial\mathcal{L}}{\partial\phi}\delta\phi+\partial_\mu\big(\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi)}\delta\phi\big)-\big(\partial_\mu\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi)}\big)\delta\phi\big]\\
+			&=\int d^4x \{ \big[\frac{\partial\mathcal{L}}{\partial\phi}-\partial_\mu\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi)}\big]\delta\phi+\partial_\mu\big[\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi)}\delta\phi\big]\}\\
+			&=\{\int d^4x\big[\frac{\partial\mathcal{L}}{\partial\phi}-\partial_\mu\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi)}\big]\delta\phi\}+\big[\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi)}\delta\phi\big]\bigg|_{\text{boundaries}}\\
+			&=\int d^4x\big[\frac{\partial\mathcal{L}}{\partial\phi}-\partial_\mu\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi)}\big]\delta\phi
+		\end{aligned}
+	\end{equation}\par 
+	Above the computation is the variation of the action\footnote{While computing, we use the method of integration by parts and we exchange the variation and 
+		derivative which we often do in physics.}, and we should note that the principle of the least action is beyond the 
+	classical mechanics as the equations of motion determined by this principle in classical field theory. Namely it should be 
+	insensitive to small variations of those field $\delta S/\delta \phi=0$, and if this holds for all variations, it gives $\delta S=0$,
+	thus:
+	\begin{equation}\label{E-L equation}
+		\boxed{\frac{\partial\mathcal{L}}{\partial\phi}-\partial_\mu\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi)}=0}
+	\end{equation}\par 
+	These are the \textit{Euler-Lagrange equtions} while they give the \textit{equations of motion} following from a Lagrangian.\par 
+	Let's check the principle from two examples. Given an action as the following:
+	\begin{equation*}
+		S=\int d^4x\mathcal{L}=\int d^4x\big[\frac{1}{2}(\partial_\mu\phi)(\partial_\mu\phi)-\mathcal{V}[\phi]\big]
+	\end{equation*}
+	and we put the Lagrangian into the E-L equtions and we can easily get the motion eqution:
+	\begin{equation*}
+		-\mathcal{V}^\prime[\phi]-\partial_\mu(\partial_\mu\phi)=0
+	\end{equation*}
+	where we often note the $\Box=\partial^2_\mu$ as the \textit{d'Alembertian}.\par 
+	What an important one is the Lagrangian as the form as 
+	\begin{equation}
+		\mathcal{L}=\frac{1}{2}(\partial_\mu\phi)(\partial_\mu\phi)-\frac{1}{2}m\phi^2
+	\end{equation}
+	When we put it in the E-L equtions, it will give an important equation as :
+	\begin{equation}\label{K-G equation}
+		\boxed{\big(\Box+m^2\big)\phi=0}
+	\end{equation}\par 
+	The equation \eqref{K-G equation} is known as the \textit{Klein-Gordon equation} which describes the equation of motion 
+	for a \textit{free scalar field}.\par 
+	When we meet a physical quantity, a natural question is that will the quantity give some symmetry or what kind of symmetry is 
+	inside? Now, we will show the topic of syemmery \textit{Noether's theorem}. \par 
+	We must clarify the concept that the symmetries we are referring to are not the "folded" symmetries obtained by folding a piece of paper
+	, like the symmetries learned by schoolchildren\footnote{Although folding a piece of paper does have a spatial symmetry}.The so-called symmetry in physics is actually a kind of invariance, 
+	under a certain transformation, the physical quantity we study does not change, then it is said that this is a certain symmetry. \par 
+	As for our physical quantity, the Lagranian, it may be invariant under some special type of variation $\phi\rightarrow\phi+\delta\phi$. For example,
+	given a Lagrangian for a complex field $\phi$ as:
+	\begin{equation}
+		\mathcal{L}=|\partial_\mu\phi|^2-m^2|\phi|^2
+	\end{equation}
+	it is the square, so when we plug the complex phrase in the state $\phi$ it will be invariant. Under transformation $\phi\rightarrow e^{-i\alpha}\phi$ for any 
+	$\alpha\in\mathbb{R}$, the Lagrangian is invariant. We claim that this transformation is a \textit{symmetry} of the Lagrangian. Notice that 
+	the Lagrangian has two  independent real degrees of freedom in such a complex field $\phi$, actually you can take the $\phi=\phi_1+i\phi_2$ then the Lagrangian is 
+	determined by two fields $\phi_1$, $\phi_2$. \par 
+	To fit our symmetry, the parameter $\alpha$ is continuous while we can deal the 
+	degrees of freedom as the kind of special discrete symmetry, namely the conjugate $\phi$ and $\phi^\star$. Consider that our example is 
+	as the form as the scalar free field which should fit the Klein-Gordon eqution mentioned above.\par 
+	We use a \textit{continuous} parameter to describe the transformation and the symmetry which  exactly mean the Lagrangian $\mathcal{L}$ is 
+	invariant under the transformation by parameter $\alpha$ saying that the functional derivative of $\mathcal{L}$ with respect to parameter $\alpha$ is $0$, thus:
+	\begin{equation}
+		\frac{\delta\mathcal{L}}{\delta\alpha}=0
+	\end{equation}\par 
+	We have already compute the $\delta L$ in the \eqref{deltaS}, then we can quickly write the $\delta\mathcal{L}/\delta\alpha$:
+	\begin{equation}\label{duichenxingdefanhandaoshu}
+		\frac{\delta\mathcal{L}}{\delta\alpha}= \sum_{n}\big\{\big[\frac{\partial\mathcal{L}}{\partial\phi_n}-\partial_\mu\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\big]\frac{\delta\phi_n}{\delta\alpha}+\partial_\mu\big[\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\frac{\delta\phi_n}{\delta\alpha}\big] \big\}=0
+	\end{equation}
+	where $\phi_n$ are the set of fields the Lagrangian depends on\footnote{Or you can regard $\phi_n$ as the $\phi$ and $\phi^\star$ in our example mentioned above}. \par 
+	When the equations of motion are satisfied\footnote{In contrast to \eqref{deltaS}, the \eqref{duichenxingdefanhandaoshu} holds all $\phi_n$ because it is 
+		derived by continuous symmetry's computation of functional derivative so the field configurations $\phi_n$ can not fit in the equation of motion corresponds to a symmetry}, the\eqref{duichenxingdefanhandaoshu} will be written as:
+	\begin{equation}
+		\sum_{n}\partial_\mu\big[\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\frac{\delta\phi_n}{\delta\alpha}\big]=0
+	\end{equation} 
+	implies the important \textit{conservative equation}:
+	\begin{equation}
+		\boxed{\partial_\mu J_\mu=0}
+	\end{equation}
+	where 
+	\begin{equation}
+		\boxed{J_\mu=\sum_n\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\frac{\delta\phi_n}{\delta\alpha}}
+	\end{equation}
+	is known as a \textit{ Noether Current}.\par 
+	The Noether current can be used to describe the symmetry. For example, we can 
+	compute the Noether current from the example Lagrangian above $\mathcal{L}=|\partial_\mu\phi|^2-m^2|\phi|^2$. We note that $\phi_1=\phi$, $\phi_2=\phi^\star$, and their 
+	variant derivative $\delta\phi/\delta\alpha=-i\phi$, $\delta\phi^\star/\delta\alpha=i\phi^\star$, so that
+	\begin{equation}
+		J_\mu=i\big(\phi^\star\partial_\mu\phi-\phi\partial_\mu\phi^\star\big)
+	\end{equation}
+	and note that the symmetry is continuous so that we can take small variantions. As this is the scalar free field, we can check that
+	\begin{equation}
+		\partial_\mu J_\mu=i\big(\phi^\star\Box\phi-\phi\Box\phi^\star\big)=im^2\big(\phi\phi^\star-\phi^\star\phi\big)=0
+	\end{equation}
+	which vanishes when they are satisfied with the equations of motion\footnote{We used the equations $\Box\phi=-m^2\phi$ and $\Box\phi^\star=-m^2\phi^\star$.}.\par 
+	In the previous paragraph,we should note that the equation of motion is satisfied, and in this case vector field $J_\mu$ that satisfies $\partial_\mu J_\mu=0$ is called a
+	\textit{conserved current}. It is called \textit{conserved} beacuse it is actually the \textit{charge continuity equation}. Here, the total charge $Q$, defined as
+	\begin{equation}
+		Q=\int d^3x J_0
+	\end{equation}
+	satisfies 
+	\begin{equation}
+		\partial_t Q=\int d^3 x\partial_t J_0=\int d^3x \nabla\cdot\vec{J}=0
+	\end{equation}\par 
+	The equation above is similar to the "classical" charge conserved, like the equation $\partial\rho/\partial t+\nabla\cdot(\rho\vec{v})=0$ in the fluid mechanics\footnote{To fit with the total charge, you can rewrite the equation through the Gauss's Law} which called the Euler equation\footnote{You may notice that the 
+		$\partial_\mu J_\mu$ shows that $\partial_t J_0-\nabla\cdot\vec{J}$ has a minus sign difference. It doesn't matter because of the difference of definition from the $J_0$ or the total charge $Q$}. Also, we have assumed $\vec{J}$ vanishes at the spaital boundary which is reasonable in physics, since, by assumption,
+	nothing is leaving our experiment. That says, the total charge does not change with time, and is conserved.\par 
+	So now, we can formally explain what \textit{Noether's theorem} is:
+	\begin{framed}
+		If a Lagrangian has a continuous symmetry then there exists a current associated with that symmetry that is conserved when the equations of motion are satisfied.
+	\end{framed}\par 
+	Notice that the symmetry must be continuous otherwise we cannot induce the Noether's theorem because the small variantions $\delta\mathcal{L}/\delta\alpha$ has no meaning which also can be expressed 
+	that Noether's theorem does not apply to discrete symmetries\footnote{Such as the symmetry under $\phi\rightarrow-\phi$ of $\mathcal{L}=1/2\phi\Box\phi-m^2\phi^2-\lambda\phi^4$ with $\phi$ real even though it is exactly variant under the transformation.}.
+	And now we can summarize a few points\footnote{There is no Noether's theorem in general relativity, but we can derive the global conservation in GR instead of the local conservation.}:
+	\begin{enumerate}
+		\item The symmetry must be continuous, otherwise $\delta\alpha$ has no meaning.\\
+		\item The current is conserved on-shell, that is, when the equations of motion are satisfied.\\
+		\item It works for global symmetries, parametrized by numbers $\alpha$, not only for local (gauge) symmetries parametrized by functions $\alpha(x)$.
+	\end{enumerate}\par 
+	We have expounded the symmetry especially the Noerther's theorem. We deal with the Noether current $J_\mu$. But now we deal with an important case which is the global symmetry to the action not the Lagrangian\footnote{Notice that Noether's theorem fits to the continuous symmetry to the Lagrangaians, but we deal with the case including the time part's translations so this is the kind of symmetry to action, naturally the Noether's theorem is not working.}. That's the 
+	global space-time translations and the symmetry gives a conserved current, the \textit{energy-momentum tensor} $\mathcal{T}_{\mu\nu}$.\par 
+	We take a translation from the whole space-time manifold, and we say that physics at the point $x$ should be same as the point $y$\footnote{Notice that this is a translation of spacetime as a whole and not a change in the coordinate system.}. We note the 
+	translation as an infinitesimal 4-vector $\xi^\mu$, then for the scalar field, we have:
+	\begin{equation}
+		\phi(x)\rightarrow\phi(x+\xi)
+	\end{equation}
+	Using the field expansion, we can expand the equation as：
+	\begin{equation}
+		\phi(x+\xi)=\phi(x)+\sum_\nu \frac{\partial\phi(x)}{\partial x^\nu}+\cdots=\phi(x)+\xi^\nu\partial_\nu\phi(x)+\cdots
+	\end{equation}\par 
+	That implies that the infinitesimal translation means:
+	\begin{equation}\label{phitranslation}
+		\frac{\delta\phi}{\delta\xi^\nu}=\partial_\nu\phi
+	\end{equation}
+	samely as the Lagrangian:
+	\begin{equation}
+		\frac{\delta\mathcal{L}}{\delta\xi^\nu}=\partial_\nu\mathcal{L}
+	\end{equation}\par 
+	Since this is a total derivative, then the variantion of action $S$ :
+	\begin{equation}
+		\begin{aligned}
+			\delta S&=\int d^4x \delta\mathcal{L}\\
+			&=\int d^4x \xi^\nu\partial_\nu\mathcal{L}=0
+		\end{aligned}
+	\end{equation}
+	which is why we sometimes say this is a symmetry of the action, not the Lagrangian.\par 
+	And what's the conserved current? As we have computed in \eqref{duichenxingdefanhandaoshu}, and use the equations of motion, then the variantion of the 
+	Lagrangian form a translation $\xi^\nu$ can be written as:
+	\begin{equation}
+		\frac{\partial \mathcal{L}}{\partial \xi^\nu}=\partial_\mu\big(\sum_n\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\frac{\delta\phi_n}{\delta\xi^\nu}\big)
+	\end{equation}
+	using the \eqref{phitranslation}, we have an equation:
+	\begin{equation}
+		\partial_\mu\big(\sum_n\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\partial_\nu\phi_n\big)=\partial_\nu\mathcal{L}
+	\end{equation}
+	namely:
+	\begin{equation}
+		\partial_\mu\big( \sum_n\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\partial_\nu\phi_n-g_{\mu\nu}\mathcal{L}=0       \big)
+	\end{equation}
+	which is the conserved equation $\partial_\mu \mathcal{T}_{\mu\nu}=0 $ producing four Noether currents, and the $\mathcal{T}_{\mu\nu}$ is:
+	\begin{equation}\label{energy-momentum tensor}
+		\boxed{ \mathcal{T}_{\mu\nu}=\sum_n\frac{\partial\mathcal{L}}{\partial(\partial_\mu\phi_n)}\partial_\nu\phi_n-g_{\mu\nu}\mathcal{L}      }
+	\end{equation}\par 
+	The four Noether currents correspond to four conserved quantities, the energy and the momentum. $\mathcal{T}_{\mu\nu}$ is called the \textit{energy-momentum tensor}.
+	We see the $00$ component of the energy-momentum tensor:
+	\begin{equation}
+		\varepsilon=\mathcal{T}_{00}=\sum_{n}\frac{\partial\mathcal{L}}{\partial\dot\phi_n}\dot\phi_n-\mathcal{L}
+	\end{equation}
+	which has the same form as the Legendre transform of Lagrangian for the $\partial\mathcal{L}/\partial\dot\phi_n=\pi_n$. Then the 
+	$00$ component of energy-momentum tensor is the energy density. By the way, the definition of energy-momentum tensor in \eqref{energy-momentum tensor} is called the 
+	\textit{canonical energy-momentum tensor} for the difference definition from the general relativity\footnote{There is another way to derive the energy-momentum tensor in general relativity and Lagrangian form in GR. See textbook \textit{Introduction to differential geometry and general relativity} written by Canbin Liang and Bin Zhou }.\par 
+	There's an another thing we should clarify. The concept of the current is abstract current which we use it to describe the continuous symmetry. And with that
+	comes the concept of the abstract charge. Both the conserved vector $J_\mu$ associated with a global symmetry and the energy-momentum tensor $\mathcal{L}_{\mu\nu}$ are types 
+	of currents. The currents are used in many ways in quantum field theory, for example:
+	\begin{enumerate}
+		\item Currents can be Noether currents associated with a symmetry.\\
+		\item Currents can refer to \textit{external} currents\footnote{These are given background configurations, such as electrons flowing through a wire}.\\
+		\item Currents can be used as sources for fields appearing in the Lagrangians.\\
+		\item Currents can be place-holders for certain terms in a Lagrangian.
+	\end{enumerate}\par 
+	Now, we gonna to do some calculations, the Coulomb's law and Coulomb potential, using the classical field theory we developed above, and we will induce the method of Green's function
+	and the Feynman diagrams (rules) in these examples.  We start with an external current:
+	\begin{equation}
+		J_\mu(x)=\begin{cases}
+			&J_0(x)=\rho(x)=e\delta^3(x)\\
+			&J_i(x)=0
+		\end{cases}
+	\end{equation}
+	whose Lagrangian\footnote{Please look up the textbook of electrodynamics and write the Lagrangian of electromagnetic field} is:
+	\begin{equation}
+		\mathcal{L}=-\frac{1}{4}F^2_{\mu\nu}-A_{\mu}J_{\mu}
+	\end{equation}
+	and the E-L equations\footnote{Using the symmetry of $F_{\mu\nu}$} imply the :
+	\begin{equation}
+		\partial_\mu F_{\mu\nu}=J_\nu
+	\end{equation}
+	which is the Maxwell equations and choose the Lorenz gauge, $\partial_\mu A_\mu=0$, then:
+	\begin{equation}
+		\Box A_\nu(x)=J_\nu(x)
+	\end{equation}
+	and the formal solution :
+	\begin{equation}
+		A_\nu(x)=\frac{1}{\Box}J_\nu(x)
+	\end{equation}\par 
+	The $1/\Box$ just means the inverse of the $\Box$. It says that the $A_\nu$ field is determined by the source $J_\nu$ after it propagates with the 
+	\textit{propagator}. It's an insightful way to understand.
+	\begin{equation}
+		\Pi_A=\frac{1}{\Box}
+	\end{equation}\par 
+	Expect the electromagenetic waves' solutions, the point charge at the origin will gives:
+	\begin{equation}
+		\begin{aligned}
+			&A_i=0\\
+			&A_0(x)=\frac{e}{\Box}\delta^3(x)
+		\end{aligned}
+	\end{equation}\par 
+	To solve the equations, we develop the tools of fourier transform first. We have the general transform:
+	\begin{equation}
+		\delta^3(\vec{x})=\int\frac{d^3k}{(2\pi)^2}e^{i\vec{k}\vec{x}}
+	\end{equation}\par 
+	Since the Laplacian is $\Delta=\partial^2$ for space parts, therefore:
+	\begin{equation*}
+		\begin{aligned}
+			\Delta\delta^3(\vec{x})&=\Delta\int\frac{d^3 k}{(2\pi)^3}e^{i\vec{k}\vec{x}}\\
+			&=(\partial_x^2+\partial_y^2+\partial_z^2)\int\frac{d^3 k}{(2\pi)^3}e^{ik_x x}e^{ik_y y}e^{ik_z z}\\
+			&=i^2(k_x^2+k_y^2+k_z^2)\int\frac{d^3 k}{(2\pi)^3}e^{i\vec{k}\vec{x}}\\
+			&=(i\vec{k})^2\int\frac{d^3 k}{(2\pi)^3}e^{i\vec{k}\vec{x}}
+		\end{aligned}
+	\end{equation*}
+	which we can extent the relations as following:
+	\begin{equation}
+		\begin{aligned}
+			\Delta^2 \delta^3(\vec{x})&=(i\vec{k})^{2n}\int\frac{d^3 k}{(2\pi)^3}e^{i\vec{k}\vec{x}}\\
+			&=-(\vec{k})^2 \int\frac{d^3 k}{(2\pi)^3}e^{i\vec{k}\vec{x}}
+		\end{aligned}
+	\end{equation}
+	or we can rewrite the equation as the fourier transform equation, that means:
+	\begin{equation}
+		\big[\Delta^2 \delta^3(\vec{k})\big]^{-1}=-(\vec{k})^2
+	\end{equation}\par 
+	Now, let's check the d'Alembertian for a lorentz-invariant quantities:
+	\begin{equation}
+		\delta^4(x)=\int\frac{d^4k}{(2\pi)}e^{ikx}
+	\end{equation}
+	where the item $kx$ means the summarizition $k_0x_0-\vec{k}\cdot\vec{x}$. Therefore,
+	\begin{equation}
+		\Box \delta^4(x)=-\int\frac{d^4k}{(2\pi)}e^{ikx}k^2 e^{ikx}
+	\end{equation}
+	thus, the extension:
+	\begin{equation}
+		\Box^n\delta^4(x)=\int\frac{d^4k}{(2\pi)^4}(-k^2)^ne^{ikx}
+	\end{equation}\par 
+	The fourier's law tells us that every functions can be expanded by fourier transform:
+	\begin{equation}
+		f(x)=\int\frac{d^4k}{(2\pi)^4}\widetilde{f}(k)e^{ikx}
+	\end{equation}
+	then
+	\begin{equation}
+		\Box^nf(x)=\int \frac{d^4k}{(2\pi)^4} \Box^n\widetilde{f}e^{ikx}=\int\frac{d^4k}{(2\pi)^4}(-k^2)^n\widetilde{f}(k)e^{ikx}
+	\end{equation}
+	or namely
+	\begin{equation}
+		\widetilde{\big[\Box^n f\big]}(k)=(-k^2)^n\widetilde{f}(k)
+	\end{equation}.\par 
+	Then we develop the important tools for $\Delta$ and $\Box$ which for a field theorist, they mean\footnote{In electrodynamics, we used to do the same with derivative operators, for example, by treating the derivative operator directly as $\nabla=i\vec{k}$ and the time deribative operator as $\partial_t=-i\omega$ for the plane wave solution or low order spherical wave solution. }:
+	\begin{equation}
+		\Delta\rightleftharpoons-\vec{k}^2,\quad \Box\rightleftharpoons-k^2
+	\end{equation}
+	are the linear and it will simplfy our computation.\par 
+	So, let's back to our example, the equation:
+	\begin{equation}
+		A_0(x)=\frac{e}{\Box}\delta^3(\vec{x})=-\frac{e}{\Delta}\delta^3(\vec{x})
+	\end{equation}
+	use our tools, then we will have the integral in $k$-space\footnote{use the correct integral on the spherical surface and use the general integrand.Just one step by step}:
+	\begin{equation}
+		\begin{aligned}
+			A_0(x)&=-\frac{e}{\Delta}\delta^3(\vec{x})\\
+			&=\frac{e}{(2\pi)^3}\int\frac{d^3k}{\vec{k}^2}e^{i\vec{k}\vec{x}}\\
+			&=\frac{e}{(2\pi)^3}\int d^3k\frac{e^{i\vec{k}\vec{x}}}{k^2}\\
+			&=\frac{e}{(2\pi)^3}\iiint k^2\sin\theta d\theta\d\varphi dk \frac{e^{ikr\cos\theta}}{k^2}\\
+			&=\frac{e}{(2\pi)^3}\int_{0}^{\infty}k^2dk\int_{0}^{\pi}\sin\theta d\theta\int_{0}^{2\pi}d\varphi\frac{e^{ikr\cos\theta}}{k^2}\\
+			&=\frac{e}{8\pi^2}\frac{1}{ir}\int_{-\infty}^{+\infty}dk\frac{e^{ikr}-e^{-ikr}}{k}
+		\end{aligned}
+	\end{equation}
+	and we use the method of mathematics in physics, the theory of complex variables functions,
+	\begin{equation}
+		\int_{-\infty}^{+\infty}dk\frac{e^{ikr}-e^{-ikr}}{k}=\lim\limits_{\delta\rightarrow0}\big[\int_{-\infty}^{+\infty}dk\frac{e^{ikr}-e^{-ikr}}{k+i\delta}\big]=\lim\limits_{\delta\rightarrow0}2\pi ie^{-\delta r}=2\pi i
+	\end{equation}
+	therefore the equation
+	\begin{equation}
+		A_0(x)=\frac{e}{4\pi}\frac{1}{r}
+	\end{equation}
+	shows the Coulomb potential.\par 
+	From the important example above, we can summarize a kind of equations whose form follow the form:
+	\begin{equation}\label{field and current}
+		\text{Field}=\frac{1}{\Box}\text{Current}
+	\end{equation}\par 
+	We add some items in the Lagrangian $\mathcal{L}$. We consider the Lagrangian of a charged object radiating the $A$ filed,
+	\begin{equation}
+		\mathcal{L}=-\frac{1}{4}F^2_{\mu\nu}-\phi^\star\Box\phi-ieA_\mu\big(\phi^\star\partial_\mu\phi-\phi\partial_\mu\phi^\star\big)
+	\end{equation}\par 
+	We can get the current in the space-time is $J_\mu=ie\big(\phi^\star\partial_\mu\phi-\phi\partial_\mu\phi^\star\big)$ and we can get the same eqution in \eqref{field and current} in Lorenz gauge.\par 
+	Using the propagators is a very useful way to solve these types of equtions, and quite general. And we gonna to introduce an example about the 
+	graviton and we shall use the example's perturbation solution to induce the Green's function method.\par 
+	Given the Lagrangian:
+	\begin{equation}
+		\mathcal{L}=-\frac{1}{2}h\Box h+\frac{1}{3}\lambda h^3+Jh
+	\end{equation}
+	where the $h$ represents the gravitational potential. As the E-L equation \eqref{E-L equation}, we get the 
+	equation of motion:
+	\begin{equation}
+		\Box h-\lambda h^2-J=0
+	\end{equation}\par 
+	Solve the perturbatively in $\lambda$, for the $\lambda=0$, the zero solution is 
+	\begin{equation}
+		h_0=\frac{1}{\Box}J
+	\end{equation}.
+	Then we plug in
+	\begin{equation}
+		h=h_0+h_1
+	\end{equation}
+	with $h_1=\mathcal{O}(\lambda^1)$.Then
+	\begin{equation}
+		\Box(h_0+h_1)-\lambda(h_0+h_1)^2-J=0
+	\end{equation}
+	implies
+	\begin{equation}
+		\Box h_1=\lambda h_0^2+\mathcal{O}(\lambda^2)
+	\end{equation}
+	so that:
+	\begin{equation}
+		h_1=\lambda\frac{1}{\Box}(h_0h_0)=\lambda\frac{1}{\Box}\big[\big(\frac{1}{\Box}J\big)\big(\frac{1}{\Box}J\big)\big]
+	\end{equation}\par 
+	So the solution to order $\lambda$ in perturation theory is 
+	\begin{equation}
+		h=\frac{1}{\Box}J+\lambda\frac{1}{\Box}\big[\big(\frac{1}{\Box}J\big)\big(\frac{1}{\Box}J\big)\big]+\mathcal{O}(\lambda^2)
+	\end{equation}
+	which can keep iterating.\par 
+	This is the \textit{Green's function method}, and the 
+	\begin{equation}
+		\Pi=\frac{1}{\Box}
+	\end{equation}
+	is called \textit{2-point Green's function} or \textit{propagator}. As its name illustrates, the propagator is a kind of tools to decribe the 
+	propagating having nothing to do with the source exactly determined by the kinetic terms for a field which is insightful to physical pictures.\par 
+	About this expansion, we can define the propagator as the solution to\footnote{See the textbook \textit{Methods of mathematics in physics}} :
+	\begin{equation}
+		\Box_x\Pi(x,y)=-\delta^4(x-y)
+	\end{equation}\par 
+	Drop out the boundaries in infinite space, we can get
+	\begin{equation}
+		\Pi(x,y)=\int\frac{d^4k}{(2\pi)^4}e^{ik(x-y)}\frac{1}{k^2}
+	\end{equation}\par 
+	The 2-point propagator is symmetry,
+	\begin{equation}
+		\Pi(x,y)=\Pi(y,x)
+	\end{equation}\par 
+	Using the $\Box_y\Pi(x,y)=-\delta^4(x,y)$, we can write a field as
+	\begin{equation}
+		\begin{aligned}
+			h(x)&=\int d^4y\delta^4(x-y)h(y)\\
+			&=-\int d^4y\big[\Box_y\Pi(x,y)\big]h(y)\\
+			&=\int d^4y\Pi(x,y)\Box_yh(y)\quad\text{integrated by parts}
+		\end{aligned}
+	\end{equation}
+	therefore,
+	\begin{equation}
+		h_0(x)=\int d^4y \Pi(x,y)J(y)
+	\end{equation}\par 
+	The equation $\Box h_1=\lambda h_0$ can be rewritten as a new form easy to compute:
+	\begin{equation}
+		\begin{aligned}
+			\Box_\omega h_1(\omega)&=\lambda h_0^2(\omega)\\
+			&=\lambda h_0(\omega)h_0(\omega)\\
+			&=\lambda \int d^4y \Pi(\omega,y)J(y)\int d^4z \Pi(\omega,z)J(z)
+		\end{aligned}
+	\end{equation}\par 
+	So the final soluton in order of $\lambda$ is :
+	\begin{equation}\label{integral solution to lambda 2 order}
+		h(x)=\int d^4y \Pi(x,y)J(y)+\lambda \int d^4y \Pi(\omega,y)J(y)\int d^4z \Pi(\omega,z)J(z)+\mathcal{O}(\lambda^2)
+	\end{equation}\par 
+	There is a Feynman diagram to show this process. But we keep this till the later chapter about formal Feynman diagrams and rules. Here, the 
+	Feynman rules for this classical field theory examphy are : 
+	1.Draw a point $x$ and a line from $x$ to a new point $x_i$. 
+	2.Either truncate a line at a source $J$ or let the line branch into two lines adding a new point and a factor of $\lambda$.
+	3.Repeat previous step.
+	4.The final value for $h(x)$ is given by graphs up to some order in $\lambda$ with the ends capped by currents $J(x_i)$, the lines replaced by propagators $\Pi(x_i,x_j)$, and all internal points integrated over.
+	\\
+	\\
+	\\
+	All the above is the content of this chapter, in this chapter, we re-interpret some important contents of the classical field theory which will be helpful to study the quantum field theory later.
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	\chapter{Old-Fashioned Perturbation Theory (OFPT)}
+	In this chapter, we briefly introduce the old-fashioned perturbation theory (OFPT) and then do a little calculation using the theory.
+	At the same time, we recall a bit of confusion that Oppenheimer obtained using OFPT, namely the Lamb shift, which will show us that it is a difficult and important thing to
+	properly handle and clarify all infinite divergences.\par 
+	One important thing is that there may have some infinities and off-shell cases. And we gonna to try to explain where off-shellness comes from, why you do not need it, but why you want it anyway.\par 
+	Let's start with the Schwinger's work in OFPT. Just as in quantum mechanics we have leant before, perturbation theory in quantum field theory works by spliting the Hamiltonian up into two parts:
+	\begin{equation}
+		H=H_0+V
+	\end{equation}
+	where the $H_0$ is what we have completely understand and the $V$ can be regarded as small parts\footnote{The difference from quantum mechanics is that in quantum field theory the states often have a continuous range of energies.}.
+	We know the state of a system at early times and would like to know the state at late times. For system described by $H_0$, we note the 
+	complete set as $\{\ket{\phi}\}$, then the eigenequations are:
+	\begin{equation}
+		H_0\ket{\phi}=E\ket{\phi}
+	\end{equation}\par 
+	If the energies $E$ are continuous, we shall be able to find an eigenstate $\ket{\psi}$ of the full Hamiltonian with the same energy eigenvalue:
+	\begin{equation}
+		H_0\ket{\psi}=E\ket{\psi}
+	\end{equation}\par 
+	Both with the two eigenequations above, we can formally write the linear combination with two states\footnote{We pick out the state $\ket{\phi}$ that is orthogonal to all other vectors and here we omit the degenerate perturbation problems. Just use the linear algebra.}:
+	\begin{equation}
+		\ket{\psi}=\ket{\phi}+\frac{1}{E-H_0}V\ket{\psi}
+	\end{equation}
+	which is called the \textit{Lippmann-Schwinger equation\footnote{It is useful in scattering theory. In scattering calculations the $V$ acts at intermediate times to induce transitions among states $\ket{\phi}$ that are assumed to be free (non-interacting) at early and late times. It says the full wavefunction $\ket{\psi}$ is given by the free wavefunction $\ket{\phi}$ plus a scattering term.}}.\par 
+	Notice that, the alegbra part of $\dfrac{1}{E-H_0}$ is an inverse operator called \textit{Lippmann-Schwinger kernel} which
+	is a kind of \textit{Green's function}:
+	\begin{equation}
+		\Pi_{LS}=\frac{1}{E-H_0}
+	\end{equation}\par 
+	We define the \textit{transfer matrix} $T$, satisfying the linear transformation:
+	\begin{equation}
+		V\ket{\psi}=T\ket{\phi}
+	\end{equation}
+	thus product operator $V$:
+	\begin{equation*}
+		T\ket{\phi}=V\ket{\phi}+V\frac{1}{E-H_0}T\ket{\phi}
+	\end{equation*}
+	therefore
+	\begin{equation}
+		T=V+V\frac{1}{E-H_0}T
+	\end{equation}
+	namely
+	\begin{equation}
+		T=V+V\Pi_{LS}T
+	\end{equation}\par 
+	We expand the equation in order by $V$:
+	\begin{equation}
+		T=V+V\Pi_{LS}V+V\Pi_{LS}V\Pi_{LS}V+\cdots
+	\end{equation}\par 
+	In Heisenberg's picture, we write the martix elements of transfer matrix $T_{fi}$ of the initial state mapping to final state\footnote{insert the complete set and use the Einstein's summation convention}:
+	\begin{equation}
+		\begin{aligned}
+			\bra{\phi_f}T\ket{\phi_i}&=\bra{\phi_f}V\ket{\phi_i}+\bra{\phi_f}V\Pi_{LS}V\ket{\phi_i}+\cdots \\
+			&=\bra{\phi_f}V\ket{\phi_i}+\bra{\phi_f}V\frac{1}{E-H_0}\ket{\phi_j}\bra{\phi_j}V\ket{\phi_i}+\cdots
+		\end{aligned}
+	\end{equation}
+	or the matrix product form:
+	\begin{equation}
+		T_{fi}=V_{fi}+V_{fi}\Pi_{LS}(j)V_{ji}+V_{fj}\Pi_{LS}(j)V_{jk}\Pi_{LS}(k)V_{ki}+\cdots
+	\end{equation}
+	where $\Pi_{LS}(k)=\dfrac{1}{E-E_k}$ and $E=E_i=E_f$ is the energy of the initial and final state we are interested in.\par 
+	The expansion is the so-called \textit{old-fashioned perturbation theory (OFPT)}.\par 
+	So how we understand the perturbation's physical picture? Actually, in each term appeared in the equation, creates
+	an intermediate state $\ket{\phi_j}$ which propagates with the propagator $\Pi_{LS}(j)$ until it hits another potential, where it creates a new field $\ket{\phi_k}$ which then 
+	propagates and so on, until they hit the final potential factor, which transitions it to the final state. The nice diagrammatic way of drawing this series is the Feynman graphs.\par 
+	Schwartz introduced the Feynman ruled for OFPT and developed it by an important example, an electron scattering off another electron and the Coulomb's law revisited, in his textbook. We don't 
+	note this parts rather recalling the Oppenheimer's confusion. We will recall the scartting example till we discuss the 
+	Feynman rules in later chapter.\par 
+	So now, we revisit the second-quantized Hamiltonian from the photon field:
+	\begin{equation}
+		H=\int\frac{d^3k}{(2\pi)^3}\omega_k\big(a_k^\dagger a_k+\frac{1}{2}\big)
+	\end{equation}
+	with $\omega_k=|\vec{k}|$.\par 
+	The problem is that, if we compute the energy of vacuum\footnote{Even though the energy of vacuum is $\infty$, the energy density is limited in local, and the question is that how it affect the curve.}, the Hamilontian gives:
+	\begin{equation}
+		E_0=\bra{0}H\ket{0}=\frac{1}{2}\int\frac{d^3k}{(2\pi)^3}|\vec{k}|=\infty
+	\end{equation}
+	which we have used the communicate of the creation and annihilation operator.\par 
+	That's a bad answer? Fortunately, there is an easy way out of this paradoxical infinity: How do you measure the energy of vacuum?
+	Yes, we cannot. Only energy differences are measurable, and in these differences the \textit{zero-point energy}, the energy of the ground state, drops out.
+	This is the basic idea behind renormalization--infinities can appear in intermediate calculations but they must drop out of physical observables\footnote{The zero-point energy we have met in cosmology, the Casimir effect.}
+	. Because this kind of infinity, the Oppenheimer used to concluded that QED was wrong\footnote{In fact, the result is not infinite but a finite calculable quantity known as the Lamb shift, which agrees perfectly with data. However, it is instructive to understand Oppenheimer’s argument.}.\par 
+	Schwartz used the example of \textit{linear Stark effect} and \textit{Lamb shift} to illustrate the confusions. But we also recall this part in the later chapter which we will develop the 
+	formal Feynman diagrams and rules. Let's cut to the chase.What went wrong? 
+	In the Stark effect calculation we only had to sum over excited electron states, through $\sum_{m>0}\ket{\psi_m}\bra{\psi_m}$, which was finite. 
+	For the Lamb shift calculation, the sum was also over photon states, which was divergent. 
+	It diverged because the phase space for photons, $d^3k$, is larger than the suppression, $1/|\vec{k}|$ , due to the energies  of the intermediate excited states. 
+	In terms of Feynman diagrams, the difference is that in the latter case we do not consider interactions with a fixed external field, but integrate over dynamical fields, corresponding to intermediate state photons. 
+	Since the photons relevant to the $\bra{\psi_0}H_{int}\ket{\psi_m;1_k}$ matrix element are the same as the photons relevant to the second, $\bra{\psi_m;1_k}H_{int}\ket{\psi_0}$ matrix element, the photon lines represent the same state and should be represented by a single line. Thus the diagram contracts,
+	and the Stark effect diagram becomes a loop diagram for the Lamb shift. 
+	These pictures are just shorthand for the perturbation expansion.
+	The loop means that there is an unknown momentum, $\vec{k}$, over which we have to integrate. Momentum must be conserved, but it can split between the atom and the photon in an infinite number of ways.\par 
+	There was actually nothing wrong with Oppenheimer’s calculation.
+	He did get the answer that OFPT predicts.
+	What he missed was that there are other infinities that eventually cancel this infinity (for example, the electron mass is infinite too, so in fact his conclusion was on the right track). 
+	This discussion was really just meant as a preview to demonstrate the complexities we will be up against.
+	To sort out all these infinities, it will be really helpful, but not strictly necessary, to have a formalism that keeps the symmetries, in particular Lorentz invariance, manifest along the way. 
+	Although Schwinger was able to tame the infinities using OFPT, his techniques were not for everyone. 
+	In his own words, “Like the silicon chips of more recent years, the Feynman diagram was bringing computation to the masses” .
+	
+	
+	\chapter{Cross Sections and Decay Rates}
+	In this chapter, the author provided a useful tool for us to understand the high-energy physics experiments which said that:
+	\begin{quotation}
+			The twentieth century witnessed the invention and development of collider physics as an efficient way to determine which particles exist in nature, their properties, and how they interact. In early experiments, such as Rutherford's discovery of the nucleus in 1911 using $\alpha$-particles or Anderson's discovery of the positron in 1932 from cosmic rays, the colliding particles came from nature. \textit{Colliders provide a great way to study fundamental interactions because they begin with initial states of essentially fixed momenta, i.e. plane waves, and end up with final states, which also have fixed momenta.}
+	\end{quotation}
+
+	\par 
+	The experimentally measurable quantities that are based on QM are differential probabilities. 
+	These probabilities are given by the modulus squared on inner products of states. We can write such inner products as $\braket{f;t_f|i;t_i}$, where $\ket{i;t_i}$  is the initial state we start with at time $t_i$ and $\bra{f;t_f}$ is the final state we are interested in at some later time $t_f$. Since quantum field theory is just quantum mechanics with lots of fields, the experimental quantities we will be 
+	able to predict are also of the form $|\braket{f;t_f|i;t_i
+	}|^2$. One thing should be cleared that the notation of $\braket{f;t_f|i;t_i}$ refers to the Schrodinger picture representation, where the states evolve in time. In Heisenberg picture, which will be the default picture for quantum field theory, we leave the states alone and put all the time evolution into an operator. In the special case where we evolve momentum eigenstates from $t=-\infty$ to $t=+\infty$, relevant for collider physics applications, we give the time-evolution operator a special name: \textbf{the scattering or S-matrix}. The \textbf{S-matrix} is defined as
+	\begin{equation}
+		\bra{f}S\ket{i}_{\text{Heisenberg}}=\braket{f;\infty|i;-\infty}_{\text{Schrodinger}}
+	\end{equation}
+	The S-matrix is defined assuming that all of the things that change the state (the interactions) happen in a finite time interval, so that at asymptotic times, $t=\pm\infty$, the states are free of interactions. Free states at $t=\pm\infty$ are known as \textit{asymptotic states}.\par 
+	But in this chapter, we relate S-matrix elements to scattering cross sections, which are directly measured in collider experiments. \par 
+	The cross section is a natural quantity to measure 
+	experimentally. The  cross-sectional area, $\sigma=\pi r^2$, of the nucleus is given by 
+	\begin{equation}
+		\sigma=\frac{\text{number of particles scattered}}{\text{time}\times\text{number density in beam}\times\text{velocity of beam}}=\frac{1}{T}\frac{1}{\Phi}N
+	\end{equation}
+	where the $T$ is the time of experiment and $\Phi$ is the incoming flux (exactly the number density $\times$ velocity of beam)
+	In additionally, the number of scattering, $N$, is determined completely by the \textit{short-distance} interactions among the 
+	particles.\par 
+	The \textit{differential cross section}, $\dfrac{d\sigma}{d\Omega}$, which gives the number of scattered particles in a certain solid angle 
+	$d\Omega$. Classically, this gives us information about the shape of the object or form of the potential off of which the $\alpha$-particles are 
+	scattered\footnote{This supports a kind of the "microscope" of the shape or potential}.\par 
+	In QM, taking the derivative of both, that says $d\sigma=\dfrac{1}{T}\dfrac{1}{\Phi}dN$, while the derivative has the 
+	natural meaning in QM, probabilities $P=N/N_{inc}$, where the $N$ is the number of particles scattering into a given area and $N_{inc}$ is the number of incident particles. 
+	So the quantum mechanical cross section is then naturally:
+	\begin{equation}
+		d\sigma=\frac{1}{T}\frac{1}{\Phi}dP
+	\end{equation}
+	where $\Phi$ is the flux. But we should notice that the equation is normalized as if the beam has just one particle, and $P$ is now the quantum mechanical probability of scattering.
+	The differential quantities $d\sigma$ and $dP$ are differential in kinematical variables, such as the angles and energies of the final
+	state particles. The differential number of scattering events measures in a collider experiment is;
+	\begin{equation}
+		dN=L\times d\sigma
+	\end{equation}
+	where $L$ is the \textit{luminosity}, which is defined by this equation.\par 
+	One more thing, we should to prove the item \begin{equation}
+		\int\frac{d^3p}{2\omega_p}
+	\end{equation} is Lorentz invariant which is the measure in $\mathbb{M}^4$ and we have to prove some 
+	characters in $\delta$ function.
+	
+	
+	
+	
+	\chapter{The S-Matrix and Time-Ordered Products}
+	In this chapter here, our main topic is the LSZ (Lehmann-Symanzik-Zimmermann) reduction formula. As discussed in Chapter 5, scattering experiments have been an efficient way to determine the particles that exist and how they interact.
+	As we know, all of the interesting interacting physics is encoded in how often given initial states produce given final states, that is, in the \textit{S-matrix}. We assume that the process happened in 
+	finite time which fitting to the collider scattering experiments. This also means that if there were always interactions, it would not be possible to set up our initial states at $t=-\infty$ or find the desired 
+	final states at $t=+\infty$. Without interactions at asymptotic times, the states we scatter can be defined as on=shell one-particle states of given momenta, known as \textbf{asymptotic states}. We gonna to derive 
+	an expression for the S-matrix using only that the system is free at asymptotic times. And after that, we will derive and use the Feynman rules which is a powerful weapon to the interacting theory.\par 
+	Before the driving, we give the LSZ reduction formula at first. The LSZ relates the S-matrix elements $\bra{f}S\ket{i}$ for $n$ asymptotic momentum eigenstates to an expression involving the quantum fields $\phi(x)$:
+	\begin{equation}
+	\boxed{	\bra{f}S\ket{i}=\Big[i\int d^4x_1 e^{-ip_1x_1}(\Box+m^2)\Big]\cdots\Big[i\int d^4x_ne^{ip_nx_n}\Big]\times\bra{\Omega}T\{\phi(x_1)\phi(x_2)\phi(x_3)\cdots\phi(x_n)\}\ket{\Omega}}
+	\end{equation}
+
+	\begin{center}
+		\textcolor{red}{\textit{to be supplemented}}
+	\end{center}
+	\chapter{Feynman Rules}
+	aaa
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+\end{document}
